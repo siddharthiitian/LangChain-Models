@@ -43,6 +43,7 @@ if hf_token:
 
     def generate_itinerary(location, days, user_types):
         prompt = (
+            f"You are a Experienced Travel Planner who gives a detailed itenary to their client."
             f"Generate a detailed travel itinerary for a trip to {location}. "
             f"The trip duration is {days} days. The traveler preferences are: {', '.join(user_types)}. "
             f"Provide day-wise plans, including attractions, activities, and food recommendations."
