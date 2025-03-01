@@ -26,30 +26,49 @@ if hf_token:
     chat_container = st.container()
 
     def send_message():
-        user_input = st.session_state.input
+        user_input = st.session_state.input.strip()
         if user_input:
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             
-            with st.spinner("AI is thinking..."):
+            with chat_container:
+                placeholder = st.empty()
+                with placeholder.container():
+                    st.markdown(
+                        "<div style='text-align: left; background-color: #E6E6E6; padding: 10px; border-radius: 10px; margin: 5px 0;'>🤖 AI is thinking...</div>",
+                        unsafe_allow_html=True,
+                    )
+                
                 time.sleep(1)  # Simulate delay
                 result = model.invoke(st.session_state.chat_history)
+            
+            placeholder.markdown(
+                f"<div style='text-align: left; background-color: #E6E6E6; padding: 10px; border-radius: 10px; margin: 5px 0;'>{result.content}</div>",
+                unsafe_allow_html=True,
+            )
             
             st.session_state.chat_history.append({"role": "assistant", "content": result.content})
             st.session_state.input = ""  # Clear input box
 
     # User input
     with st.container():
-        user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...", on_change=send_message)
-        send_button = st.button("Send", use_container_width=True, on_click=send_message)
+        user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
+        send_button = st.button("Send", use_container_width=True)
+        
+        if send_button and user_input:
+            send_message()
 
     # Display chat history with styling
     with chat_container:
         for message in st.session_state.chat_history:
             if message["role"] == "user":
-                st.markdown(f"<div style='text-align: right; background-color: #000000; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>", unsafe_allow_html=True)
+                st.markdown(
+                    f"<div style='text-align: right; background-color: #000000; color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>",
+                    unsafe_allow_html=True,
+                )
             else:
-                st.markdown(f"<div style='text-align: left; background-color: #808080; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>", unsafe_allow_html=True)
-
+                st.markdown(
+                    f"<div style='text-align: left; background-color: #808080; color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>",
+                    unsafe_allow_html=True,
+                )
 else:
     st.warning("⚠️ Please enter your Hugging Face API token to continue.")
-
