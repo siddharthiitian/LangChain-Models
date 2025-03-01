@@ -41,7 +41,7 @@ if hf_token:
             st.session_state.user_input = ""
 
     # User input
-    user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...", on_change=send_message)
+    user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
     send_button = st.button("Send", use_container_width=True)
     
     if send_button and user_input.strip():
