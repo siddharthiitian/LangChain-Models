@@ -25,8 +25,7 @@ if hf_token:
     # Custom chat container
     chat_container = st.container()
 
-    def send_message():
-        user_input = st.session_state.input.strip()
+    def send_message(user_input):
         if user_input:
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             
@@ -47,7 +46,6 @@ if hf_token:
             )
             
             st.session_state.chat_history.append({"role": "assistant", "content": result.content})
-            st.session_state.input = ""  # Clear input box
 
     # User input
     with st.container():
@@ -55,7 +53,7 @@ if hf_token:
         send_button = st.button("Send", use_container_width=True)
         
         if send_button and user_input:
-            send_message()
+            send_message(user_input)
 
     # Display chat history with styling
     with chat_container:
