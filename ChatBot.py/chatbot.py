@@ -10,7 +10,7 @@ st.markdown(
         .main {
             background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dHJhdmVsJTIwbmF0dXJlfGVufDB8fDB8fHww') no-repeat center center fixed;
             background-size: cover;
-            opacity: 0.9;
+            opacity: 0.2;
         }
         .stTextInput, .stNumberInput, .stSelectbox, .stButton {border-radius: 10px; padding: 8px;}
         .chat-box {background-color: #e3f2fd; color: #000; padding: 10px; border-radius: 10px; margin: 5px 0;}
