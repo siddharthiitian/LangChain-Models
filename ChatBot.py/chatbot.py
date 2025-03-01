@@ -47,9 +47,9 @@ if hf_token:
     with chat_container:
         for message in st.session_state.chat_history:
             if message["role"] == "user":
-                st.markdown(f"<div style='text-align: right; background-color: #DCF8C6; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='text-align: right; background-color: #000000; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>", unsafe_allow_html=True)
             else:
-                st.markdown(f"<div style='text-align: left; background-color: #E6E6E6; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='text-align: left; background-color: #808080; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>", unsafe_allow_html=True)
 
 else:
     st.warning("⚠️ Please enter your Hugging Face API token to continue.")
