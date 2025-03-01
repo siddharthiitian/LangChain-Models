@@ -2,7 +2,7 @@ import streamlit as st
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from dotenv import load_dotenv
 import time
-
+import os
 # Load environment variables
 load_dotenv()
 huggingface_api_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
