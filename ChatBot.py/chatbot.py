@@ -38,6 +38,7 @@ if hf_token:
                 time.sleep(1)  # Simulate delay
                 result = model.invoke(st.session_state.chat_history)
                 st.session_state.chat_history.append({"role": "assistant", "content": result.content})
+                st.session_state["input"] = ""
 
     # User input
     user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
