@@ -36,7 +36,6 @@ if hf_token:
             
             st.session_state.chat_history.append({"role": "assistant", "content": result.content})
             st.session_state.input = ""  # Clear input box
-            st.rerun()
 
     # User input
     with st.container():
