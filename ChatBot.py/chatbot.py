@@ -27,6 +27,11 @@ if hf_token:
 
     def send_message(user_input):
         if user_input:
+            # Ensure conversation alternates user -> assistant
+            if st.session_state.chat_history and st.session_state.chat_history[-1]["role"] == "user":
+                st.warning("⚠️ Please wait for AI to respond before sending another message.")
+                return
+            
             st.session_state.chat_history.append({"role": "user", "content": user_input})
             
             with st.spinner("🤖 AI is thinking..."):
