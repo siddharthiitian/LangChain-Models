@@ -16,7 +16,7 @@ st.markdown(
 )
 
 st.title("🌍 AI Travel Itinerary Planner")
-st.image("https://unsplash.com/photos/airplane-on-sky-during-golden-hour-M0AWNxnLaMw", use_column_width=True)
+st.image("https://unsplash.com/photos/airplane-on-sky-during-golden-hour-M0AWNxnLaMw", use_container_width=True)
 st.markdown("Plan your perfect trip with AI!")
 
 # Ask user for their Hugging Face API token
