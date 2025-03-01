@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate,load_prompt
 # import os
 load_dotenv()
-
+huggingface_api_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 llm = HuggingFaceEndpoint(
  repo_id = 'google/gemma-2-2b-it',
  task = 'text-generation')
