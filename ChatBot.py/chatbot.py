@@ -22,32 +22,32 @@ if hf_token:
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
+    if "user_input" not in st.session_state:
+        st.session_state.user_input = ""
+
     # Custom chat container
     chat_container = st.container()
 
-    def send_message(user_input):
+    def send_message():
+        user_input = st.session_state.user_input.strip()
         if user_input:
             # Ensure conversation alternates user -> assistant
             if st.session_state.chat_history and st.session_state.chat_history[-1]["role"] == "user":
                 st.warning("⚠️ Please wait for AI to respond before sending another message.")
                 return
-            
+
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            
+
             with st.spinner("🤖 AI is thinking..."):
                 time.sleep(1)  # Simulate delay
                 result = model.invoke(st.session_state.chat_history)
                 st.session_state.chat_history.append({"role": "assistant", "content": result.content})
-            
+
             # Clear input box after message is sent
-            st.session_state["input"] = ""
+            st.session_state.user_input = ""
 
     # User input
-    user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
-    send_button = st.button("Send", use_container_width=True)
-    
-    if send_button and user_input.strip():
-        send_message(user_input.strip())
+    st.text_input("You:", key="user_input", placeholder="Type your message here...", on_change=send_message)
 
     # Display chat history with styling
     with chat_container:
