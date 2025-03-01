@@ -8,11 +8,11 @@ st.markdown(
     """
     <style>
         .main {
-            background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dHJhdmVsJTIwbmF0dXJlfGVufDB8fDB8fHww') no-repeat center center fixed;
+            background: url('https://unsplash.com/photos/airplane-on-sky-during-golden-hour-M0AWNxnLaMw') no-repeat center center fixed;
             background-size: cover;
-            opacity: 0.2;
+            opacity: 0.9;
         }
-        .stTextInput, .stNumberInput, .stSelectbox, .stButton {border-radius: 10px; padding: 8px;}
+        .stTextInput, .stNumberInput, .stMultiSelect, .stButton {border-radius: 10px; padding: 8px;}
         .chat-box {background-color: #e3f2fd; color: #000; padding: 10px; border-radius: 10px; margin: 5px 0;}
     </style>
     """,
@@ -41,10 +41,10 @@ if hf_token:
     # Custom chat container
     chat_container = st.container()
 
-    def generate_itinerary(location, days, user_type):
+    def generate_itinerary(location, days, user_types):
         prompt = (
             f"Generate a detailed travel itinerary for a trip to {location}. "
-            f"The trip duration is {days} days. The traveler is a {user_type}. "
+            f"The trip duration is {days} days. The traveler preferences are: {', '.join(user_types)}. "
             f"Provide day-wise plans, including attractions, activities, and food recommendations."
         )
         
@@ -58,11 +58,11 @@ if hf_token:
         st.subheader("Plan Your Trip")
         location = st.text_input("📍 Where are you traveling to?", "")
         days = st.number_input("📅 How many days are you staying?", min_value=1, step=1)
-        user_type = st.selectbox("🧳 What kind of traveler are you?", ["Adventurer", "Relaxer", "Foodie", "Culture Seeker"])
+        user_types = st.multiselect("🧳 What kind of traveler are you?", ["Adventurer", "Relaxer", "Foodie", "Culture Seeker"])
         plan_button = st.button("✨ Generate Itinerary", use_container_width=True)
     
-    if plan_button and location.strip():
-        generate_itinerary(location.strip(), days, user_type)
+    if plan_button and location.strip() and user_types:
+        generate_itinerary(location.strip(), days, user_types)
     
     # Display chat history with enhanced styling
     with chat_container:
