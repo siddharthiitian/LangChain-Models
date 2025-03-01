@@ -25,24 +25,21 @@ if hf_token:
     # Custom chat container
     chat_container = st.container()
 
-    def send_message():
-        user_input = st.session_state.input.strip()
+    def send_message(user_input):
         if user_input:
             st.session_state.chat_history.append({"role": "user", "content": user_input})
-            st.session_state.input = ""  # Clear input box
-
+            
             with st.spinner("🤖 AI is thinking..."):
                 time.sleep(1)  # Simulate delay
                 result = model.invoke(st.session_state.chat_history)
                 st.session_state.chat_history.append({"role": "assistant", "content": result.content})
 
     # User input
-    with st.container():
-        user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
-        send_button = st.button("Send", use_container_width=True)
-        
-        if send_button and user_input:
-            send_message()
+    user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
+    send_button = st.button("Send", use_container_width=True)
+    
+    if send_button and user_input.strip():
+        send_message(user_input.strip())
 
     # Display chat history with styling
     with chat_container:
