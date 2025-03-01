@@ -2,9 +2,9 @@ import streamlit as st
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 import time
 
-st.set_page_config(page_title="AI Chatbot", page_icon="🤖", layout="centered")
-st.title("🤖 AI Chatbot with LangChain & Hugging Face")
-st.markdown("Talk to an AI-powered chatbot in real-time!")
+st.set_page_config(page_title="Travel Itinerary Planner", page_icon="🌍", layout="centered")
+st.title("🌍 AI Travel Itinerary Planner")
+st.markdown("Plan your perfect trip with AI!")
 
 # Ask user for their Hugging Face API token
 hf_token = st.text_input("Enter your Hugging Face API Token:", type="password")
@@ -25,40 +25,33 @@ if hf_token:
     # Custom chat container
     chat_container = st.container()
 
-    def send_message(user_input):
-        if user_input:
-            # Ensure conversation alternates user -> assistant
-            if st.session_state.chat_history and st.session_state.chat_history[-1]["role"] == "user":
-                st.warning("⚠️ Please wait for AI to respond before sending another message.")
-                return
-            
-            st.session_state.chat_history.append({"role": "user", "content": user_input})
-            
-            with st.spinner("🤖 AI is thinking..."):
-                time.sleep(1)  # Simulate delay
-                result = model.invoke(st.session_state.chat_history)
-                st.session_state.chat_history.append({"role": "assistant", "content": result.content})
-            st.session_state.user_input = ""
+    def generate_itinerary(location, days, user_type):
+        prompt = (
+            f"Generate a detailed travel itinerary for a trip to {location}. "
+            f"The trip duration is {days} days. The traveler is a {user_type}. "
+            f"Provide day-wise plans, including attractions, activities, and food recommendations."
+        )
+        
+        with st.spinner("🛫 Generating your travel itinerary..."):
+            time.sleep(1)  # Simulate delay
+            result = model.invoke(prompt)
+            st.session_state.chat_history.append({"role": "assistant", "content": result.content})
 
-    # User input
-    user_input = st.text_input("You:", "", key="input", placeholder="Type your message here...")
-    send_button = st.button("Send", use_container_width=True)
+    # User inputs
+    location = st.text_input("Where are you traveling to?", "")
+    days = st.number_input("How many days are you staying?", min_value=1, step=1)
+    user_type = st.selectbox("What kind of traveler are you?", ["Adventurer", "Relaxer", "Foodie", "Culture Seeker"])
+    plan_button = st.button("Generate Itinerary", use_container_width=True)
     
-    if send_button and user_input.strip():
-        send_message(user_input.strip())
-
+    if plan_button and location.strip():
+        generate_itinerary(location.strip(), days, user_type)
+    
     # Display chat history with styling
     with chat_container:
         for message in st.session_state.chat_history:
-            if message["role"] == "user":
-                st.markdown(
-                    f"<div style='text-align: right; background-color: #000000; color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>",
-                    unsafe_allow_html=True,
-                )
-            else:
-                st.markdown(
-                    f"<div style='text-align: left; background-color: #808080; color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>",
-                    unsafe_allow_html=True,
-                )
+            st.markdown(
+                f"<div style='text-align: left; background-color: #808080; color: #FFFFFF; padding: 10px; border-radius: 10px; margin: 5px 0;'>{message['content']}</div>",
+                unsafe_allow_html=True,
+            )
 else:
     st.warning("⚠️ Please enter your Hugging Face API token to continue.")
